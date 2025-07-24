@@ -1,0 +1,25 @@
+# Deutsche Regisseurinnen und ihre Filme im Cannes Film Festival
+#defaultView:Timeline
+
+SELECT ?director ?directorLabel ?festivalLabel ?film ?filmLabel ?date
+
+WHERE {
+    ?director wdt:P106 wd:Q2526255 ;
+              wdt:P21 wd:Q6581072 ;
+              wdt:P27 wd:Q183 .
+  
+    ?director  p:P1344   ?s .
+           ?s  ps:P1344  ?festival .
+           ?s  pq:P3831   ?film .
+  
+    ?festival wdt:P179 wd:Q42369 ;
+              wdt:P585 ?date .
+  
+   
+    ?director rdfs:label ?directorLabel .
+    ?film rdfs:label ?filmLabel .
+    ?festival rdfs:label ?festivalLabel .
+    FILTER(LANG(?directorLabel)="de")
+    FILTER(LANG(?filmLabel)="en")
+    FILTER(LANG(?festivalLabel)="en")
+    }
