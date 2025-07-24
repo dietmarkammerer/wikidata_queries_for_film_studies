@@ -5,7 +5,7 @@ SELECT
 (?movie AS ?WikidataID) # wikidata ID
 (?movieLabel AS ?Filmtitel) # Filmtitel in [AUTO LANGUAGE], sofern vorhanden
 (SAMPLE (YEAR(?publicationDate)) AS ?Datum)
-(group_concat(?directorLabel; separator=', ') AS ?Filmemacher) # Regisseur:innen, als Liste
+(group_concat( distinct ?directorLabel; separator=', ') AS ?Filmemacher) # Regisseur:innen, als Liste
 (group_concat( distinct ?countryLabel; separator=', ') AS ?Land) # Produktionsländer, als Liste
 
 WHERE
