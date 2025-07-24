@@ -1,0 +1,29 @@
+#Filmographie Maciste
+#defaultView:Timeline
+
+SELECT 
+  (?movie AS ?WikidataID) # wikidata ID
+  (?movieLabel AS ?Filmtitel) # Filmtitel in [AUTO LANGUAGE], sofern vorhanden
+  (SAMPLE (?publicationDate) AS ?Datum)
+
+WHERE
+{
+  wd:Q332436 wdt:P1441 ?movie.
+  ?movie wdt:P57 ?director.
+  
+  OPTIONAL {
+    ?movie wdt:P495 ?country.
+    }
+  
+  OPTIONAL {
+    ?movie wdt:P577 ?publicationDate.
+    }
+  
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],mul,en". 
+                           ?movie rdfs:label ?movieLabel.
+                           ?director rdfs:label ?directorLabel.
+                           ?country rdfs:label ?countryLabel.
+                           }
+}
+
+GROUP BY ?movie ?movieLabel ?Datum
