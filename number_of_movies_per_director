@@ -1,0 +1,25 @@
+#Filmographie Maciste
+#Anzahl Filme pro Regisseur https://w.wiki/BtML
+#defaultView:BubbleChart
+
+SELECT 
+  ?director
+  (?directorLabel AS ?Filmemacher) # Regisseur:innen
+  (COUNT (?movieLabel) AS ?Anzahl_Filme) # Filmtitel in [AUTO LANGUAGE], sofern vorhanden
+
+
+WHERE
+{
+  wd:Q332436 wdt:P1441 ?movie.
+  ?movie wdt:P57 ?director.
+
+  
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],mul,en". 
+                           ?movie rdfs:label ?movieLabel.
+                           ?director rdfs:label ?directorLabel.
+                           ?country rdfs:label ?countryLabel.
+                           }
+}
+
+GROUP BY ?director ?directorLabel
+ORDER BY DESC (?Anzahl_Filme)
